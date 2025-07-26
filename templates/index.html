@@ -56,6 +56,11 @@
             border-radius: 10px;
             padding: 20px;
             border-left: 4px solid #2196F3;
+            transition: transform 0.3s ease;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-5px);
         }
         
         .status-card h3 {
@@ -197,11 +202,17 @@
             border-radius: 8px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
         }
         
         .feature-icon {
             font-size: 2em;
             margin-bottom: 10px;
+            color: #2196F3;
         }
         
         .footer {
@@ -212,8 +223,55 @@
         }
         
         .loading {
-            opacity: 0.6;
+            position: relative;
+            opacity: 0.8;
             pointer-events: none;
+        }
+        
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #2196F3;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .error-text {
+            color: #f44336;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+            margin-left: 8px;
         }
     </style>
 </head>
@@ -255,13 +313,20 @@
                 <h3>Webhook Management</h3>
                 
                 <div class="input-group">
-                    <input type="url" id="webhook-input" placeholder="https://your-domain.com" value="">
-                    <button class="btn btn-primary" onclick="setWebhook()">Set Webhook</button>
+                    <input type="url" id="webhook-input" placeholder="https://telestoragebot.onrender.com/" value="">
+                    <button class="btn btn-primary" id="set-webhook-btn" onclick="setWebhook()">
+                        Set Webhook
+                    </button>
                 </div>
+                <div id="url-error" class="error-text hidden"></div>
                 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button class="btn btn-success" onclick="refreshStatus()">Refresh Status</button>
-                    <button class="btn btn-danger" onclick="deleteWebhook()">Delete Webhook</button>
+                    <button class="btn btn-success" id="refresh-btn" onclick="refreshStatus()">
+                        Refresh Status
+                    </button>
+                    <button class="btn btn-danger" id="delete-webhook-btn" onclick="deleteWebhook()">
+                        Delete Webhook
+                    </button>
                 </div>
                 
                 <div class="response-area" id="response-area">Ready for webhook operations...</div>
@@ -274,22 +339,22 @@
                 <div class="feature-item">
                     <div class="feature-icon">📤</div>
                     <h4>File Upload</h4>
-                    <p>Upload files up to 4GB</p>
+                    <p>Upload files up to 4GB with progress tracking</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">📥</div>
                     <h4>File Download</h4>
-                    <p>Download files up to 10GB</p>
+                    <p>Download files up to 10GB with resume support</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">📊</div>
                     <h4>Statistics</h4>
-                    <p>Track storage usage</p>
+                    <p>Track storage usage and bandwidth</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">🔍</div>
-                    <h4>File Details</h4>
-                    <p>View file metadata</p>
+                    <h4>File Search</h4>
+                    <p>Find files by name, type, or date</p>
                 </div>
             </div>
         </div>
@@ -300,64 +365,134 @@
     </div>
     
     <script>
-        let isLoading = false;
+        // Global state
+        const state = {
+            isLoading: false,
+            currentWebhookUrl: null
+        };
         
+        // DOM Elements
+        const elements = {
+            webhookInput: document.getElementById('webhook-input'),
+            setWebhookBtn: document.getElementById('set-webhook-btn'),
+            deleteWebhookBtn: document.getElementById('delete-webhook-btn'),
+            refreshBtn: document.getElementById('refresh-btn'),
+            responseArea: document.getElementById('response-area'),
+            urlError: document.getElementById('url-error'),
+            statusElements: {
+                server: document.getElementById('server-status'),
+                webhookUrl: document.getElementById('webhook-url'),
+                pendingUpdates: document.getElementById('pending-updates'),
+                lastError: document.getElementById('last-error')
+            }
+        };
+        
+        // Helper functions
         function setLoading(loading) {
-            isLoading = loading;
+            state.isLoading = loading;
             const container = document.querySelector('.container');
+            const buttons = [elements.setWebhookBtn, elements.deleteWebhookBtn, elements.refreshBtn];
+            
             if (loading) {
                 container.classList.add('loading');
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.innerHTML += '<span class="spinner"></span>';
+                });
             } else {
                 container.classList.remove('loading');
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.querySelector('.spinner')?.remove();
+                });
             }
         }
         
         function showResponse(message, type = 'info') {
-            const responseArea = document.getElementById('response-area');
-            responseArea.textContent = message;
-            responseArea.className = `response-area ${type}`;
+            elements.responseArea.textContent = message;
+            elements.responseArea.className = `response-area ${type}`;
+            elements.responseArea.scrollIntoView({ behavior: 'smooth' });
         }
         
-        async function makeRequest(url, options = {}) {
-            if (isLoading) return;
-            
-            setLoading(true);
+        function validateUrl(url) {
             try {
-                const response = await fetch(url, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...options.headers
-                    },
-                    ...options
-                });
-                
-                const data = await response.json();
-                setLoading(false);
-                return { success: response.ok, data, status: response.status };
-            } catch (error) {
-                setLoading(false);
-                return { success: false, error: error.message };
+                new URL(url);
+                if (!url.startsWith('https://')) {
+                    return { valid: false, error: 'URL must use HTTPS protocol' };
+                }
+                return { valid: true };
+            } catch (e) {
+                return { valid: false, error: 'Invalid URL format' };
             }
         }
         
+        // API Functions
+        async function makeRequest(endpoint, method = 'GET', body = null) {
+            if (state.isLoading) return null;
+            
+            setLoading(true);
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(endpoint, options);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return { success: true, data };
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    success: false, 
+                    error: error.message || 'Unknown error occurred' 
+                };
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        // Core Functions
         async function refreshStatus() {
             showResponse('Refreshing webhook status...', 'info');
             
             // Check server health
             const healthResult = await makeRequest('/health');
             if (healthResult.success) {
-                document.getElementById('server-status').textContent = '✅ Healthy';
+                elements.statusElements.server.textContent = '✅ Healthy';
+                elements.statusElements.server.style.color = '#4CAF50';
             } else {
-                document.getElementById('server-status').textContent = '❌ Error';
+                elements.statusElements.server.textContent = '❌ Error';
+                elements.statusElements.server.style.color = '#f44336';
             }
             
             // Get webhook info
             const webhookResult = await makeRequest('/webhook_info');
             if (webhookResult.success) {
                 const info = webhookResult.data;
-                document.getElementById('webhook-url').textContent = info.url || 'Not Set';
-                document.getElementById('pending-updates').textContent = info.pending_update_count || '0';
-                document.getElementById('last-error').textContent = info.last_error_message || 'None';
+                state.currentWebhookUrl = info.url || null;
+                
+                elements.statusElements.webhookUrl.textContent = 
+                    info.url ? info.url : 'Not Configured';
+                elements.statusElements.pendingUpdates.textContent = 
+                    info.pending_update_count || '0';
+                elements.statusElements.lastError.textContent = 
+                    info.last_error_message || 'None';
+                
+                // Update input field with current webhook if exists
+                if (info.url) {
+                    elements.webhookInput.value = info.url;
+                }
                 
                 showResponse(JSON.stringify(info, null, 2), 'success');
             } else {
@@ -366,62 +501,92 @@
         }
         
         async function setWebhook() {
-            const url = document.getElementById('webhook-input').value.trim();
-            if (!url) {
-                showResponse('Please enter a webhook URL', 'error');
-                return;
-            }
+            const url = elements.webhookInput.value.trim();
             
-            if (!url.startsWith('https://')) {
-                showResponse('Webhook URL must use HTTPS', 'error');
+            // Validate URL
+            const validation = validateUrl(url);
+            if (!validation.valid) {
+                elements.urlError.textContent = validation.error;
+                elements.urlError.classList.remove('hidden');
                 return;
             }
+            elements.urlError.classList.add('hidden');
             
             showResponse('Setting webhook...', 'info');
             
-            const result = await makeRequest('/set_webhook', {
-                method: 'POST',
-                body: JSON.stringify({ url: url })
-            });
+            const result = await makeRequest('/set_webhook', 'POST', { url });
             
             if (result.success) {
-                showResponse(`Webhook set successfully!\nURL: ${url}`, 'success');
-                refreshStatus();
+                showResponse(`✅ Webhook set successfully!\nURL: ${url}\n\nResponse: ${JSON.stringify(result.data, null, 2)}`, 'success');
+                state.currentWebhookUrl = url;
+                await refreshStatus();
             } else {
-                showResponse(`Error setting webhook: ${result.data?.error || result.error}`, 'error');
+                showResponse(`❌ Error setting webhook: ${result.error}`, 'error');
             }
         }
         
         async function deleteWebhook() {
+            if (!state.currentWebhookUrl) {
+                showResponse('No webhook is currently configured', 'error');
+                return;
+            }
+            
             if (!confirm('Are you sure you want to delete the webhook? The bot will switch to polling mode.')) {
                 return;
             }
             
             showResponse('Deleting webhook...', 'info');
             
-            const result = await makeRequest('/delete_webhook', {
-                method: 'POST'
-            });
+            const result = await makeRequest('/delete_webhook', 'POST');
             
             if (result.success) {
-                showResponse('Webhook deleted successfully!\nBot switched to polling mode.', 'success');
-                refreshStatus();
+                showResponse('✅ Webhook deleted successfully!\nBot switched to polling mode.', 'success');
+                state.currentWebhookUrl = null;
+                elements.webhookInput.value = '';
+                await refreshStatus();
             } else {
-                showResponse(`Error deleting webhook: ${result.data?.error || result.error}`, 'error');
+                showResponse(`❌ Error deleting webhook: ${result.error}`, 'error');
             }
         }
         
-        // Auto-fill webhook URL based on current domain
-        function setDefaultWebhookUrl() {
-            const input = document.getElementById('webhook-input');
-            if (window.location.protocol === 'https:') {
-                input.value = `${window.location.protocol}//${window.location.host}`;
-            }
+        // Event Listeners
+        function setupEventListeners() {
+            elements.webhookInput.addEventListener('input', () => {
+                const url = elements.webhookInput.value.trim();
+                if (!url) {
+                    elements.urlError.classList.add('hidden');
+                    return;
+                }
+                
+                const validation = validateUrl(url);
+                if (!validation.valid) {
+                    elements.urlError.textContent = validation.error;
+                    elements.urlError.classList.remove('hidden');
+                } else {
+                    elements.urlError.classList.add('hidden');
+                }
+            });
+            
+            // Allow form submission with Enter key
+            elements.webhookInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    setWebhook();
+                }
+            });
         }
         
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            setDefaultWebhookUrl();
+            setupEventListeners();
+            
+            // Auto-fill webhook URL based on current domain if HTTPS
+            if (window.location.protocol === 'https:') {
+                const baseUrl = `${window.location.protocol}//${window.location.host}`;
+                elements.webhookInput.value = `${baseUrl}/webhook`;
+                elements.webhookInput.placeholder = `${baseUrl}/webhook`;
+            }
+            
+            // Initial status refresh
             refreshStatus();
             
             // Auto-refresh every 30 seconds
