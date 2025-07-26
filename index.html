@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram File Storage Bot - Webhook Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .status-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .status-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 5px;
+        }
+        
+        .status-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .webhook-controls {
+            padding: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .control-section {
+            margin-bottom: 30px;
+        }
+        
+        .control-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .response-area {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .response-area.success {
+            border-color: #4CAF50;
+            background: #f1f8e9;
+        }
+        
+        .response-area.error {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+        
+        .features {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .features h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.4em;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .feature-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Telegram File Storage Bot</h1>
+            <p>Webhook Dashboard & Management Interface</p>
+        </div>
+        
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>Server Status</h3>
+                <div class="status-value" id="server-status">Loading...</div>
+                <div class="status-label">Webhook Server</div>
+            </div>
+            
+            <div class="status-card">
+                <h3>Webhook URL</h3>
+                <div class="status-value" id="webhook-url">Loading...</div>
+                <div class="status-label">Current Endpoint</div>
+            </div>
+            
+            <div class="status-card">
+                <h3>Pending Updates</h3>
+                <div class="status-value" id="pending-updates">Loading...</div>
+                <div class="status-label">Queue Status</div>
+            </div>
+            
+            <div class="status-card">
+                <h3>Last Error</h3>
+                <div class="status-value" id="last-error">Loading...</div>
+                <div class="status-label">Error Status</div>
+            </div>
+        </div>
+        
+        <div class="webhook-controls">
+            <div class="control-section">
+                <h3>Webhook Management</h3>
+                
+                <div class="input-group">
+                    <input type="url" id="webhook-input" placeholder="https://your-domain.com" value="">
+                    <button class="btn btn-primary" onclick="setWebhook()">Set Webhook</button>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-success" onclick="refreshStatus()">Refresh Status</button>
+                    <button class="btn btn-danger" onclick="deleteWebhook()">Delete Webhook</button>
+                </div>
+                
+                <div class="response-area" id="response-area">Ready for webhook operations...</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h3>Bot Features</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📤</div>
+                    <h4>File Upload</h4>
+                    <p>Upload files up to 4GB</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📥</div>
+                    <h4>File Download</h4>
+                    <p>Download files up to 10GB</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h4>Statistics</h4>
+                    <p>Track storage usage</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔍</div>
+                    <h4>File Details</h4>
+                    <p>View file metadata</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 Telegram File Storage Bot - Production Ready Deployment</p>
+        </div>
+    </div>
+    
+    <script>
+        let isLoading = false;
+        
+        function setLoading(loading) {
+            isLoading = loading;
+            const container = document.querySelector('.container');
+            if (loading) {
+                container.classList.add('loading');
+            } else {
+                container.classList.remove('loading');
+            }
+        }
+        
+        function showResponse(message, type = 'info') {
+            const responseArea = document.getElementById('response-area');
+            responseArea.textContent = message;
+            responseArea.className = `response-area ${type}`;
+        }
+        
+        async function makeRequest(url, options = {}) {
+            if (isLoading) return;
+            
+            setLoading(true);
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                const data = await response.json();
+                setLoading(false);
+                return { success: response.ok, data, status: response.status };
+            } catch (error) {
+                setLoading(false);
+                return { success: false, error: error.message };
+            }
+        }
+        
+        async function refreshStatus() {
+            showResponse('Refreshing webhook status...', 'info');
+            
+            // Check server health
+            const healthResult = await makeRequest('/health');
+            if (healthResult.success) {
+                document.getElementById('server-status').textContent = '✅ Healthy';
+            } else {
+                document.getElementById('server-status').textContent = '❌ Error';
+            }
+            
+            // Get webhook info
+            const webhookResult = await makeRequest('/webhook_info');
+            if (webhookResult.success) {
+                const info = webhookResult.data;
+                document.getElementById('webhook-url').textContent = info.url || 'Not Set';
+                document.getElementById('pending-updates').textContent = info.pending_update_count || '0';
+                document.getElementById('last-error').textContent = info.last_error_message || 'None';
+                
+                showResponse(JSON.stringify(info, null, 2), 'success');
+            } else {
+                showResponse(`Error getting webhook info: ${webhookResult.error}`, 'error');
+            }
+        }
+        
+        async function setWebhook() {
+            const url = document.getElementById('webhook-input').value.trim();
+            if (!url) {
+                showResponse('Please enter a webhook URL', 'error');
+                return;
+            }
+            
+            if (!url.startsWith('https://')) {
+                showResponse('Webhook URL must use HTTPS', 'error');
+                return;
+            }
+            
+            showResponse('Setting webhook...', 'info');
+            
+            const result = await makeRequest('/set_webhook', {
+                method: 'POST',
+                body: JSON.stringify({ url: url })
+            });
+            
+            if (result.success) {
+                showResponse(`Webhook set successfully!\nURL: ${url}`, 'success');
+                refreshStatus();
+            } else {
+                showResponse(`Error setting webhook: ${result.data?.error || result.error}`, 'error');
+            }
+        }
+        
+        async function deleteWebhook() {
+            if (!confirm('Are you sure you want to delete the webhook? The bot will switch to polling mode.')) {
+                return;
+            }
+            
+            showResponse('Deleting webhook...', 'info');
+            
+            const result = await makeRequest('/delete_webhook', {
+                method: 'POST'
+            });
+            
+            if (result.success) {
+                showResponse('Webhook deleted successfully!\nBot switched to polling mode.', 'success');
+                refreshStatus();
+            } else {
+                showResponse(`Error deleting webhook: ${result.data?.error || result.error}`, 'error');
+            }
+        }
+        
+        // Auto-fill webhook URL based on current domain
+        function setDefaultWebhookUrl() {
+            const input = document.getElementById('webhook-input');
+            if (window.location.protocol === 'https:') {
+                input.value = `${window.location.protocol}//${window.location.host}`;
+            }
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setDefaultWebhookUrl();
+            refreshStatus();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(refreshStatus, 30000);
+        });
+    </script>
+</body>
+</html>
