@@ -1,0 +1,40 @@
+# Telegram File Storage Bot - Standalone Dependencies
+# Use this file for deployment outside of Replit environment
+
+# Core Telegram bot framework
+python-telegram-bot==20.8
+
+# Web framework for webhook server
+Flask>=3.1.1
+
+# Production WSGI server
+gunicorn>=23.0.0
+
+# HTTP requests library
+requests>=2.32.4
+
+# Template engine (Flask dependency)
+Jinja2>=3.1.6
+
+# WSGI utilities (Flask dependency)
+Werkzeug>=3.1.3
+
+# Security utilities (Flask dependency)
+MarkupSafe>=3.0.2
+itsdangerous>=2.2.0
+
+# CLI utilities (Flask dependency)
+click>=8.2.1
+
+# Signal dispatching (Flask dependency)
+blinker>=1.9.0
+
+# Packaging utilities
+packaging>=25.0
+
+# HTTP client utilities
+urllib3>=2.5.0
+charset-normalizer>=3.4.2
+
+# Installation command:
+# pip install -r requirements-standalone.txt

@@ -1,0 +1,104 @@
+2025-07-26 06:00:13,049 - bot_handlers - INFO - Bot handlers setup complete
+2025-07-26 06:00:13,050 - __main__ - INFO - Telegram application created and configured
+2025-07-26 06:00:13,050 - __main__ - INFO - Starting webhook server on port 5000
+2025-07-26 06:00:13,050 - __main__ - INFO - Available endpoints:
+2025-07-26 06:00:13,050 - __main__ - INFO -   POST /webhook - Receive Telegram updates
+2025-07-26 06:00:13,050 - __main__ - INFO -   POST /set_webhook - Set webhook URL
+2025-07-26 06:00:13,050 - __main__ - INFO -   GET /webhook_info - Get webhook information
+2025-07-26 06:00:13,050 - __main__ - INFO -   POST /delete_webhook - Delete webhook
+2025-07-26 06:00:13,050 - __main__ - INFO -   GET /health - Health check
+2025-07-26 06:00:13,062 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.31.106.226:5000
+2025-07-26 06:00:13,063 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-26 06:00:16,077 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:00:16] "[33mGET / HTTP/1.1[0m" 404 -
+2025-07-26 06:00:57,014 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:00:57] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:01:39,202 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:01:39,203 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:01:39] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:02:02,161 - bot_handlers - INFO - Bot handlers setup complete
+2025-07-26 06:02:02,161 - __main__ - INFO - Telegram application created and configured
+2025-07-26 06:02:02,161 - __main__ - INFO - Starting webhook server on port 5000
+2025-07-26 06:02:02,161 - __main__ - INFO - Available endpoints:
+2025-07-26 06:02:02,161 - __main__ - INFO -   POST /webhook - Receive Telegram updates
+2025-07-26 06:02:02,161 - __main__ - INFO -   POST /set_webhook - Set webhook URL
+2025-07-26 06:02:02,161 - __main__ - INFO -   GET /webhook_info - Get webhook information
+2025-07-26 06:02:02,162 - __main__ - INFO -   POST /delete_webhook - Delete webhook
+2025-07-26 06:02:02,162 - __main__ - INFO -   GET /health - Health check
+2025-07-26 06:02:02,170 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.31.106.226:5000
+2025-07-26 06:02:02,170 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-26 06:02:02,784 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:02:02] "[33mGET / HTTP/1.1[0m" 404 -
+2025-07-26 06:02:03,146 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:02:03] "[33mGET / HTTP/1.1[0m" 404 -
+2025-07-26 06:02:03,762 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:02:03] "[33mGET / HTTP/1.1[0m" 404 -
+2025-07-26 06:03:28,906 - bot_handlers - INFO - Bot handlers setup complete
+2025-07-26 06:03:28,907 - __main__ - INFO - Telegram application created and configured
+2025-07-26 06:03:28,907 - __main__ - INFO - Starting webhook server on port 5000
+2025-07-26 06:03:28,907 - __main__ - INFO - Available endpoints:
+2025-07-26 06:03:28,908 - __main__ - INFO -   POST /webhook - Receive Telegram updates
+2025-07-26 06:03:28,908 - __main__ - INFO -   POST /set_webhook - Set webhook URL
+2025-07-26 06:03:28,908 - __main__ - INFO -   GET /webhook_info - Get webhook information
+2025-07-26 06:03:28,908 - __main__ - INFO -   POST /delete_webhook - Delete webhook
+2025-07-26 06:03:28,909 - __main__ - INFO -   GET /health - Health check
+2025-07-26 06:03:28,928 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.31.106.226:5000
+2025-07-26 06:03:28,930 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-26 06:03:29,448 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:29] "GET / HTTP/1.1" 200 -
+2025-07-26 06:03:30,399 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:30] "GET / HTTP/1.1" 200 -
+2025-07-26 06:03:31,909 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:31] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:03:32,619 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:03:32,621 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:32] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:03:32,796 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:32] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:03:33,117 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef22f4d0 [unset]> is bound to a different event loop')
+2025-07-26 06:03:33,117 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:03:33] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:03:36,709 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:03:36] "GET / HTTP/1.1" 200 -
+2025-07-26 06:03:36,743 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:03:36] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:03:37,176 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:03:37,178 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 06:03:37] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:04:01,930 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:01] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:04:02,570 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:04:02,571 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:02] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:04:02,802 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:02] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:04:03,146 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef24cd90 [unset]> is bound to a different event loop')
+2025-07-26 06:04:03,146 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:03] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:04:32,220 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:32] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:04:32,845 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:04:32,846 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:32] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:04:33,198 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:33] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:04:33,512 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef215510 [unset]> is bound to a different event loop')
+2025-07-26 06:04:33,512 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:04:33] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:05:01,945 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:01] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:05:02,587 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:05:02,588 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:02] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:05:02,805 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:02] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:05:03,116 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef252a50 [unset]> is bound to a different event loop')
+2025-07-26 06:05:03,117 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:03] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:05:31,941 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:31] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:05:32,576 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:05:32,577 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:32] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:05:32,821 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:32] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:05:33,137 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef252b10 [unset]> is bound to a different event loop')
+2025-07-26 06:05:33,137 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:05:33] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:06:01,934 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:01] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:06:02,574 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:06:02,575 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:02] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:06:02,812 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:02] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:06:03,132 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef26c590 [unset]> is bound to a different event loop')
+2025-07-26 06:06:03,132 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:03] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:06:31,946 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:31] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:06:32,588 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:06:32,589 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:32] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:06:32,805 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:32] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:06:33,108 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef253250 [unset]> is bound to a different event loop')
+2025-07-26 06:06:33,108 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:06:33] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:07:01,958 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:07:01] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:07:02,575 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8404951013:AAEY34XTvR-TXe0_Nc8XcDTltZukWnb_Qao/getWebhookInfo "HTTP/1.1 200 OK"
+2025-07-26 06:07:02,576 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:07:02] "GET /webhook_info HTTP/1.1" 200 -
+2025-07-26 06:07:02,819 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:07:02] "GET /health HTTP/1.1" 200 -
+2025-07-26 06:07:03,147 - __main__ - ERROR - Error getting webhook info: Unknown error in HTTP implementation: RuntimeError('<asyncio.locks.Event object at 0x7fa4ef26cfd0 [unset]> is bound to a different event loop')
+2025-07-26 06:07:03,147 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:07:03] "[35m[1mGET /webhook_info HTTP/1.1[0m" 500 -
+2025-07-26 06:07:25,523 - werkzeug - INFO - 172.31.106.226 - - [26/Jul/2025 06:07:25] "GET / HTTP/1.1" 200 -
